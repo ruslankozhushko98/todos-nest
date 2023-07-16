@@ -82,4 +82,15 @@ export class AuthService {
 
     return { access_token };
   }
+
+  googleLogin(googleUserDto: any) {
+    if (!googleUserDto) {
+      return 'No user from google';
+    }
+
+    return {
+      message: 'User info from Google',
+      user: googleUserDto,
+    };
+  }
 }

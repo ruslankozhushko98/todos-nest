@@ -6,7 +6,13 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies';
 
 @Module({
-  imports: [JwtModule.register({})],
+  imports: [
+    JwtModule.register({
+      signOptions: {
+        expiresIn: '1h',
+      },
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
 })

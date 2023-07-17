@@ -12,7 +12,7 @@ type Payload = {
 };
 
 type AccessTokenObj = {
-  access_token: string;
+  accessToken: string;
 };
 
 @Injectable()
@@ -76,11 +76,11 @@ export class AuthService {
   }
 
   async signToken(payload: Payload): Promise<AccessTokenObj> {
-    const access_token = await this.jwt.signAsync(payload, {
+    const accessToken = await this.jwt.signAsync(payload, {
       secret: this.config.get('JWT_SECRET'),
     });
 
-    return { access_token };
+    return { accessToken };
   }
 
   googleLogin(googleUserDto: any) {

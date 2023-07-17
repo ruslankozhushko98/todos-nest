@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -6,7 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getMe(userId: number) {
+  async getMe(userId: number): Promise<Omit<User, 'password'>> {
     const user = await this.prisma.user.findFirst({
       where: {
         id: userId,

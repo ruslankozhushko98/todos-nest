@@ -1,4 +1,5 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
+import { Category } from '@prisma/client';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
@@ -7,7 +8,7 @@ import { CreateCategoryDto, EditCategoryDto } from './dto';
 export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  getAllCategories(userId: number) {
+  getAllCategories(userId: number): Promise<Array<Category>> {
     return this.prisma.category.findMany({
       where: {
         userId,
@@ -15,7 +16,7 @@ export class CategoriesService {
     });
   }
 
-  async getCategoryById(categoryId: number) {
+  async getCategoryById(categoryId: number): Promise<Category> {
     const data = await this.prisma.category.findFirst({
       where: {
         id: categoryId,
@@ -26,19 +27,19 @@ export class CategoriesService {
     });
 
     if (!data) {
-      throw new NotFoundException('Category not found');
+      throw new NotFoundException('Category is not found');
     }
 
     return data;
   }
 
-  createCategory(dto: CreateCategoryDto) {
+  createCategory(dto: CreateCategoryDto): Promise<Category> {
     return this.prisma.category.create({
       data: dto,
     });
   }
 
-  editCategory(dto: EditCategoryDto) {
+  editCategory(dto: EditCategoryDto): Promise<Category> {
     return this.prisma.category.update({
       where: {
         id: dto.id,
@@ -47,7 +48,7 @@ export class CategoriesService {
     });
   }
 
-  removeCategory(categoryId: number) {
+  removeCategory(categoryId: number): Promise<Category> {
     return this.prisma.category.delete({
       where: {
         id: categoryId,
